@@ -1,20 +1,10 @@
 /************************************************************
-/* Sketch: CSC220Fall2021Recur3D, derived from CSC220Fall2020Recur3D,
-/*    derived from CSC480SP2020Recur2D, derived from Recursive2020Parson,
-/*    derived from Recursive2017Parson.
-/*    CSC220Fall2021Recur3D replacees nested zdelta, xdelta, ydeltay
+/*    Recur3D replacees nested zdelta, xdelta, ydeltay
 /*    for loops in drawRecursiveShape() with single loop with X,Y,Z limits
 /*    under user control, and indirected recursion to drawIndirectRecursiveShape()
 /*    that draws orthogonal, nested 2D shapes. It eliminates PImage Easter egg.
-/*    CSC220Fall2020Recur3D added 3D space partitioning & navigation
-/*    to CSC480SP2020Recur2D. This was originally a CSC220 project in 2017.
 /* Author: Harrison Hinkle
 /* Creation Date: 10/30/2021
-/* Due Date: Tuesday 11/23/2021
-/* Course: 
-/* Professor Name: Dr. Parson
-/* Assignment: 4.
-/* Original Sketch name: CSC220Fall2020Recur3D, Parson's solution.
 /* Purpose: Demonstrate & accelerate a recursive graphical shape.
  *************************************************************/
 /*
@@ -112,10 +102,10 @@ final float xSpanRange = 2.0, ySpanRange = 2.0, zSpanRange = 2.0, spanIncr = .00
 float xScaleAmount = 0.5, yScaleAmount = 0.5, zScaleAmount = 0.5 ;
 int spanSteps = 2 ; // keyPressed() '2' sets spanSteps at 2 and '4' sets spanSteps at 4
 // spanSteps controls how many steps within xSpanLimit, ySpanLimit, zSpanLimit
-PImage STUDENTIMAGE ;
-PShape STUDENTSHAPE = null; // STUDENT I set this via createShape in setup() but use this in drawShape().
+PImage Image ;
+PShape Shape = null; // STUDENT I set this via createShape in setup() but use this in drawShape().
 PShape customPShape = null;
-// See STUDENTSHAPE B requirement in drawShape().
+// See Shape B requirement in drawShape().
 
 void setup() {
   // fullScreen(P3D); // STUDENT adjust size() for your monitor.
@@ -123,10 +113,10 @@ void setup() {
   size(1920, 1080, P3D);    // Use size() to avoid Zoom problem on fullScreen.
   frameRate(fRate);         // Call frameRate() after size to avoid the new Mac problem.
   colorMode(HSB, 360, 100, 100, 100);
-  STUDENTIMAGE = loadImage("woodtexture.jpg"); // STUDENT replace with your own image file for drawShape()
-  STUDENTSHAPE = createShape(RECT, 0, 0, 500, 500);
-  STUDENTSHAPE.setTexture(STUDENTIMAGE);
-  STUDENTSHAPE.setStroke(false);
+  Image = loadImage("woodtexture.jpg"); // STUDENT replace with your own image file for drawShape()
+  Shape = createShape(RECT, 0, 0, 500, 500);
+  Shape.setTexture(Image);
+  Shape.setStroke(false);
   drawShape(mydepth, rotation); 
   background(0, 100, 50);
   strokeWeight(strokeSize);
@@ -244,10 +234,6 @@ void drawShape(int mydepth, final float rotation) {
   // it comes out as cyan when there is no rotation.
   stroke((175+rotation)%360, 100, 100);
   fill((rotation)%360, 100, 100);
-  // STUDENT B 50%: Each student creates their own shape according to handout spec.
-  // You must use 2D shapes only, with copies rotated in X, Y, and Z directions, and
-  // nested to the degree given by global recursionDepth+1. Also, plot one 2D PShape STUDENTSHAPE
-  // per https://processing.org/reference/createShape_.html, texture it with STUDENTIMAGE
   // via STUDENTSHAPE.setTexture, and plot it as the innermost nested shape per recursionDepth.
   // I initialized STUDENTSHAPE via createShape() in setup() and textured it using
   // STUDENTSHAPE.setTexture() there to avoid doing it repeatedly inside drawShape().
@@ -272,42 +258,42 @@ void drawShape(int mydepth, final float rotation) {
 
     if (i == recursionDepth) {
       push();  // draw it on the Z plane
-      shape(STUDENTSHAPE, 0, 0);
+      shape(Shape, 0, 0);
       pop();
 
       push();  // draw it on the Z plane
       rotateX(radians(45));
-      shape(STUDENTSHAPE, 0, 0);
+      shape(Shape, 0, 0);
       pop();
 
       push();  // draw it on the Z plane
       rotateX(radians(90));
-      shape(STUDENTSHAPE, 0, 0);
+      shape(Shape, 0, 0);
       pop();
 
       push();  // draw it on the Z plane
       rotateX(radians(135));
-      shape(STUDENTSHAPE, 0, 0);
+      shape(Shape, 0, 0);
       pop();
 
       push();  // draw it on the Z plane
       rotateX(radians(135));
-      shape(STUDENTSHAPE, 0, 0);
+      shape(Shape, 0, 0);
       pop();
 
       push();  // draw it on the Z plane
       rotateX(radians(135));
-      shape(STUDENTSHAPE, 0, 0);
+      shape(Shape, 0, 0);
       pop();
 
       push();  // draw it on the Z plane
       rotateX(radians(135));
-      shape(STUDENTSHAPE, 0, 0);
+      shape(Shape, 0, 0);
       pop();
 
       push();  // draw it on the Z plane
       rotateX(radians(135));
-      shape(STUDENTSHAPE, 0, 0);
+      shape(Shape, 0, 0);
       pop();
 
       /*
@@ -375,11 +361,10 @@ void keyPressed() {
     }
   } else if (key == '0') {
     isPaint = true ;
-    // STUDENT C 10%: 
     // on key of '2' set spanSteps to 2, 
     // on key of '3' set spanSteps to 3.
     // on key of '4' set spanSteps to 4.
-    // on key of '5' set spanSteps to 5. Changed it to 5 was set to 4. 
+    // on key of '5' set spanSteps to 5. 
     // on key of '6' set spanSteps to 6.
     // on key of '7' set spanSteps to 7.
     // on key of '8' set spanSteps to 8.
@@ -535,8 +520,6 @@ void moveCameraRotateWorldKeys() {
       }
     } else {
       // controlKey, altKey, or both are currently engaged:
-      // STUDENT D 20%: IMPLEMENT THE FOLLOWING
-      //  VVV CONTINUOUS CONTROL and ALT key closures, CONTROL or ALT key held down VVV
       // CONTROL-x CONTROL-y CONTROL-z continuously increment these by spanIncr.
       // CONTROL-X CONTROL-Y CONTROL-Z (upper case) continuously decrement these by spanIncr.
       // float xSpanLimit = 0.5, ySpanLimit = 0.5, zSpanLimit = .5 ;
